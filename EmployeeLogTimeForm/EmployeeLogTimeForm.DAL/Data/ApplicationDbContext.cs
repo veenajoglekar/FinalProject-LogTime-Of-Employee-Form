@@ -17,6 +17,9 @@ namespace EmployeeLogTimeForm.Data
 
     public class EmployeeLogDbContext : DbContext
     {
+        public EmployeeManagementDbContext()
+        {
+        }
         public EmployeeLogDbContext(DbContextOptions<EmployeeLogDbContext> options)
             : base(options)
         {
