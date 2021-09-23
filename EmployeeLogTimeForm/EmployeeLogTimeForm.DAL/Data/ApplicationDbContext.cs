@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace EmployeeLogTimeForm.Data
+namespace EmployeeLogTimeForm.DAL.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {

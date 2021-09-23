@@ -1,4 +1,4 @@
-using EmployeeLogTimeForm.Data;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -12,6 +12,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EmployeeLogTimeForm.Services.Services;
+using EmployeeLogTimeForm.DAL.Data.Model;
+using EmployeeLogTimeForm.DAL.Data;
 
 namespace EmployeeLogTimeForm
 {
@@ -36,8 +39,11 @@ namespace EmployeeLogTimeForm
             services.AddDbContext<EmployeeLogDbContext>(options =>
                options.UseSqlServer(
                    Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddSingleton<IEmpService, EmployeeService>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

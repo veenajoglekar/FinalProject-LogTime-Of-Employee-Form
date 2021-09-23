@@ -6,26 +6,32 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EmployeeLogTimeForm.DAL.Data.Model;
-using EmployeeLogTimeForm.Data;
+using EmployeeLogTimeForm.Services.Services;
+using EmployeeLogTimeForm.DAL.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EmployeeLogTimeForm.Controllers
 {
+    [Authorize(Roles = "Employee")]
     public class EmployeesController : Controller
     {
         private readonly EmployeeLogDbContext _context;
-
-        public EmployeesController(EmployeeLogDbContext context)
+        private readonly IEmpService _empService;
+        public EmployeesController(EmployeeLogDbContext context, IEmpService empService)
         {
             _context = context;
+            _empService = empService;
         }
 
-        // GET: Employees
+        // GET: EmployeeAdvns
         public async Task<IActionResult> Index()
         {
-            return View(await _context.employees.ToListAsync());
+            var result = await _empService.GetAllEmployee();
+            return View(result);
         }
 
-        // GET: Employees/Details/5
+
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +39,42 @@ namespace EmployeeLogTimeForm.Controllers
                 return NotFound();
             }
 
-            var employee = await _context.employees
-                .FirstOrDefaultAsync(m => m.EmployeeId == id);
-            if (employee == null)
+            var EmpDetail = await _empService.GetEmpDetailsById(id);
+
+            if (EmpDetail == null)
+
             {
                 return NotFound();
             }
 
-            return View(employee);
+            return View(EmpDetail);
         }
 
-        // GET: Employees/Create
+        //GET: EmpFamilyDetAdvns/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Employees/Create
+        // POST: EmpFamilyDetAdvns/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EmployeeId,FirstName,LastName,Email,Salary,Address,Role")] Employee employee)
+        public async Task<IActionResult> Create([Bind("EmployeeId, FirstName, LastName")] Employee emp)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(employee);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                bool result = await _empService.CreateEmployee(emp);
+                if (result)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
             }
-            return View(employee);
+            return View(emp);
         }
 
-        // GET: Employees/Edit/5
+        // GET: EmpFamilyDetAdvns/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +82,22 @@ namespace EmployeeLogTimeForm.Controllers
                 return NotFound();
             }
 
-            var employee = await _context.employees.FindAsync(id);
-            if (employee == null)
+            var emp = await _empService.GetEmpDetailsById(id);
+            if (emp == null)
             {
                 return NotFound();
             }
-            return View(employee);
+            return View(emp);
         }
 
-        // POST: Employees/Edit/5
+        // POST: EmpFamilyDetAdvns/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("EmployeeId,FirstName,LastName,Email,Salary,Address,Role")] Employee employee)
+        public async Task<IActionResult> Edit(int id, [Bind("EmployeeId,FirstName,LastName")] Employee emp)
         {
-            if (id != employee.EmployeeId)
+            if (id != emp.EmployeeId)
             {
                 return NotFound();
             }
@@ -97,12 +106,12 @@ namespace EmployeeLogTimeForm.Controllers
             {
                 try
                 {
-                    _context.Update(employee);
-                    await _context.SaveChangesAsync();
+                    await _empService.UpdateEmployee(emp);
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EmployeeExists(employee.EmployeeId))
+                    if (!EmpDetAdvnExists(emp.EmployeeId))
                     {
                         return NotFound();
                     }
@@ -113,41 +122,40 @@ namespace EmployeeLogTimeForm.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(employee);
+            return View(emp);
         }
 
-        // GET: Employees/Delete/5
+        // GET: EmpFamilyDetAdvns/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
+
             {
                 return NotFound();
             }
 
-            var employee = await _context.employees
-                .FirstOrDefaultAsync(m => m.EmployeeId == id);
-            if (employee == null)
+            var empFamilyDetAdvn = await _empService.GetEmpDetailsById(id);
+            if (empFamilyDetAdvn == null)
             {
                 return NotFound();
             }
 
-            return View(employee);
+            return View(empFamilyDetAdvn);
         }
 
-        // POST: Employees/Delete/5
+        // POST: EmpFamilyDetAdvns/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var employee = await _context.employees.FindAsync(id);
-            _context.employees.Remove(employee);
-            await _context.SaveChangesAsync();
+            await _empService.DeleteEmployee(id);
+
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EmployeeExists(int id)
+        private bool EmpDetAdvnExists(int id)
         {
-            return _context.employees.Any(e => e.EmployeeId == id);
+            return _empService.EmployeeExists(id);
         }
     }
 }
