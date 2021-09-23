@@ -17,7 +17,7 @@ namespace EmployeeLogTimeForm.Data
 
     public class EmployeeLogDbContext : DbContext
     {
-        public EmployeeManagementDbContext()
+        public EmployeeLogDbContext()
         {
         }
         public EmployeeLogDbContext(DbContextOptions<EmployeeLogDbContext> options)
@@ -26,5 +26,13 @@ namespace EmployeeLogTimeForm.Data
 
         }
         public DbSet<Employee> employees { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Server=LAPTOP-JGBU5O3N\\SQLEXPRESS;Database=EmployeeLogTime;Trusted_Connection=True;MultipleActiveResultSets=true");
+            }
+        }
     }
 }
