@@ -5,33 +5,31 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using EmployeeLogTimeForm.DAL.Data;
 using EmployeeLogTimeForm.DAL.Data.Model;
 using EmployeeLogTimeForm.Services.Services;
-using EmployeeLogTimeForm.DAL.Data;
-using Microsoft.AspNetCore.Authorization;
 
 namespace EmployeeLogTimeForm.Controllers
 {
-    [Authorize(Roles = "Employee")]
-    public class EmployeesController : Controller
+    public class ProjectInfoController : Controller
     {
         private readonly EmployeeLogDbContext _context;
-        private readonly IEmpService _empService;
-        public EmployeesController(EmployeeLogDbContext context, IEmpService empService)
+        private readonly IProjectInfoService _projectInfoService;
+
+        public ProjectInfoController(EmployeeLogDbContext context, IProjectInfoService projectInfoService)
         {
             _context = context;
-            _empService = empService;
+            _projectInfoService = projectInfoService;
         }
 
-        // GET: Employees
+        // GET: ProjectInfo
         public async Task<IActionResult> Index()
         {
-            var result = await _empService.GetAllEmployee();
+            var result = await _projectInfoService.GetAllProjectInfo();
             return View(result);
         }
 
-
-
+        // GET: ProjectInfo/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -39,42 +37,43 @@ namespace EmployeeLogTimeForm.Controllers
                 return NotFound();
             }
 
-            var EmpDetail = await _empService.GetEmpDetailsById(id);
+            var projInfo = await _projectInfoService.GetProjInfoById(id);
 
-            if (EmpDetail == null)
+            if (projInfo == null)
 
             {
                 return NotFound();
             }
 
-            return View(EmpDetail);
+            return View(projInfo);
         }
 
-        //GET: Employees/Create
+        // GET: ProjectInfo/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Employees/Create
+        // POST: ProjectInfo/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EmployeeId, FirstName, LastName")] Employee emp)
+        public async Task<IActionResult> Create([Bind("ProjectId,ProjectName,ClientName,DueDate,BillableStatus,Costing")]
+        ProjectInfo projectInfo)
         {
             if (ModelState.IsValid)
             {
-                bool result = await _empService.CreateEmployee(emp);
+                bool result = await _projectInfoService.CreateProject(projectInfo);
                 if (result)
                 {
                     return RedirectToAction(nameof(Index));
                 }
             }
-            return View(emp);
+            return View(projectInfo);
         }
 
-        // GET: Employees/Edit/5
+        // GET: ProjectInfo/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -82,22 +81,23 @@ namespace EmployeeLogTimeForm.Controllers
                 return NotFound();
             }
 
-            var emp = await _empService.GetEmpDetailsById(id);
-            if (emp == null)
+            var projectInfo = await _projectInfoService.GetProjInfoById(id);
+            if (projectInfo == null)
             {
                 return NotFound();
             }
-            return View(emp);
+            return View(projectInfo);
         }
 
-        // POST: Employees/Edit/5
+        // POST: ProjectInfo/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("EmployeeId,FirstName,LastName")] Employee emp)
+        public async Task<IActionResult> Edit(int id, [Bind("ProjectId,ProjectName,ClientName,DueDate,BillableStatus,Costing")]
+        ProjectInfo projectInfo)
         {
-            if (id != emp.EmployeeId)
+            if (id != projectInfo.ProjectId)
             {
                 return NotFound();
             }
@@ -106,12 +106,12 @@ namespace EmployeeLogTimeForm.Controllers
             {
                 try
                 {
-                    await _empService.UpdateEmployee(emp);
+                    await _projectInfoService.UpdateProject(projectInfo);
 
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EmployeeExists(emp.EmployeeId))
+                    if (!ProjectInfoExists(projectInfo.ProjectId))
                     {
                         return NotFound();
                     }
@@ -122,10 +122,10 @@ namespace EmployeeLogTimeForm.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(emp);
+            return View(projectInfo);
         }
 
-        // GET: Employees/Delete/5
+        // GET: ProjectInfo/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -134,28 +134,28 @@ namespace EmployeeLogTimeForm.Controllers
                 return NotFound();
             }
 
-            var empFamilyDetAdvn = await _empService.GetEmpDetailsById(id);
-            if (empFamilyDetAdvn == null)
+            var projectInfo = await _projectInfoService.GetProjInfoById(id);
+            if (projectInfo == null)
             {
                 return NotFound();
             }
 
-            return View(empFamilyDetAdvn);
+            return View(projectInfo);
         }
 
-        // POST: Employees/Delete/5
+        // POST: ProjectInfo/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _empService.DeleteEmployee(id);
+            await _projectInfoService.GetProjInfoById(id);
 
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EmployeeExists(int id)
+        private bool ProjectInfoExists(int id)
         {
-            return _empService.EmployeeExists(id);
+            return _projectInfoService.ProjectInfoExists(id);
         }
     }
 }

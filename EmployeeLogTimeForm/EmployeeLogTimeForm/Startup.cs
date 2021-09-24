@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -41,6 +40,7 @@ namespace EmployeeLogTimeForm
                    Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddSingleton<IEmpService, EmployeeService>();
+            services.AddSingleton<IProjectInfoService, ProjectInfoService>();
             services.AddControllersWithViews();
             services.AddRazorPages();
            
