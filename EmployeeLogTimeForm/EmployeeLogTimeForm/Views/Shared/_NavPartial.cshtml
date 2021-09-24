@@ -15,7 +15,7 @@
             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Employees" asp-action="Index">Employee</a>
+            <a class="nav-link text-dark" asp-area="" asp-controller="Employees" asp-action="Index">Add Employee</a>
         </li>
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="" asp-controller="Administration" asp-action="CreateRole">Create Role</a>
@@ -32,6 +32,9 @@
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="LogTimeForm" asp-action="Index">LogTime</a>
+        </li>
     }
     else if (SignInManager.IsSignedIn(User) && User.IsInRole("ProjectManager"))
     {
@@ -42,9 +45,14 @@
             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="ProjectInfo" asp-action="Index">Create Project</a>
+            <a class="nav-link text-dark" asp-area="" asp-controller="ProjectInfo" asp-action="Index">Add Project</a>
         </li>
-
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Clients" asp-action="Index">Add Client</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="JobInfo" asp-action="Index">Job Info</a>
+        </li>
     }
 </ul>
 

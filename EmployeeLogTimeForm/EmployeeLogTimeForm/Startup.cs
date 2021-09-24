@@ -41,6 +41,8 @@ namespace EmployeeLogTimeForm
 
             services.AddSingleton<IEmpService, EmployeeService>();
             services.AddSingleton<IProjectInfoService, ProjectInfoService>();
+            services.AddSingleton<IJobInfoService, JobInfoService>();
+            services.AddSingleton<IClientService, ClientService>();
             services.AddControllersWithViews();
             services.AddRazorPages();
            

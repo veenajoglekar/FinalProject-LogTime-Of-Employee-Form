@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace EmployeeLogTimeForm.DAL.Migrations
+namespace EmployeeLogTimeForm.DAL.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210923114423_init")]
+    [Migration("20210924104307_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

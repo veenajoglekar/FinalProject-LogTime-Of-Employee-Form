@@ -1,6 +1,5 @@
 ﻿using EmployeeLogTimeForm.DAL.Data;
 using EmployeeLogTimeForm.DAL.Data.Model;
-
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,44 +9,45 @@ using System.Threading.Tasks;
 
 namespace EmployeeLogTimeForm.Services.Services
 {
-    public interface IEmpService
+    public interface IJobInfoService
     {
-        public Task<List<Employee>> GetAllEmployee();
-        public Task<Employee> GetEmpDetailsById(int? id);
+        public Task<List<JobInfo>> GetAllJobInfo();
+        public Task<JobInfo> GetJobInfoById(int? id);
 
-        public Task<bool> CreateEmployee(Employee emp);
-        public Task UpdateEmployee(Employee emp);
-        public Task DeleteEmployee(int id);
-        public bool EmployeeExists(int id);
+        public Task<bool> CreateJob(JobInfo jobInfo);
+        public Task UpdateJob(JobInfo jobInfo);
+        public Task DeleteJob(int id);
+        public bool JobInfoExists(int id);
+
     }
-    public class EmployeeService : IEmpService
+    public class JobInfoService : IJobInfoService
     {
-
-        public async Task<List<Employee>> GetAllEmployee()
+        public async Task<List<JobInfo>> GetAllJobInfo()
         {
             using (var Context = new EmployeeLogDbContext())
             {
 
-                return await Context.employees.ToListAsync();
+                return await Context.jobInfo.ToListAsync();
+
             }
         }
 
-        public async Task<Employee> GetEmpDetailsById(int? id)
+        public async Task<JobInfo> GetJobInfoById(int? id)
         {
             using (var Context = new EmployeeLogDbContext())
             {
-                return await Context.employees.FirstOrDefaultAsync(m => m.EmployeeId == id);
+                return await Context.jobInfo.FirstOrDefaultAsync(m => m.JobId == id);
             }
         }
 
 
-        public async Task<bool> CreateEmployee(Employee emp)
+        public async Task<bool> CreateJob(JobInfo jobInfo)
         {
             using (var Context = new EmployeeLogDbContext())
             {
                 try
                 {
-                    Context.Add(emp);
+                    Context.Add(jobInfo);
                     await Context.SaveChangesAsync();
                 }
                 catch (Exception)
@@ -58,36 +58,34 @@ namespace EmployeeLogTimeForm.Services.Services
             }
         }
 
-        public async Task UpdateEmployee(Employee emp)
+        public async Task UpdateJob(JobInfo jobInfo)
         {
             using (var Context = new EmployeeLogDbContext())
             {
 
-                Context.Update(emp);
+                Context.Update(jobInfo);
                 await Context.SaveChangesAsync();
 
             }
         }
 
-        public async Task DeleteEmployee(int id)
+        public async Task DeleteJob(int id)
         {
             using (var Context = new EmployeeLogDbContext())
             {
-                var emp = await Context.employees.FindAsync(id);
+                var jobInfo = await Context.jobInfo.FindAsync(id);
 
-                Context.employees.Remove(emp);
+                Context.jobInfo.Remove(jobInfo);
                 await Context.SaveChangesAsync();
             }
         }
 
-        public bool EmployeeExists(int id)
+        public bool JobInfoExists(int id)
         {
             using (var Context = new EmployeeLogDbContext())
             {
-                return Context.employees.Any(e => e.EmployeeId == id);
+                return Context.jobInfo.Any(e => e.JobId == id);
             }
         }
-
-
     }
 }

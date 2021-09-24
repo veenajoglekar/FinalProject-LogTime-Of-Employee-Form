@@ -26,7 +26,10 @@ namespace EmployeeLogTimeForm.DAL.Data
 
         }
         public DbSet<Employee> employees { get; set; }
+        public DbSet<Client> clients { get; set; }
         public DbSet<ProjectInfo> projectInfo { get; set; }
+        public DbSet<JobInfo> jobInfo { get; set; }
+        public DbSet<LogTimeForm> logTimeForm { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

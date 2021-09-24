@@ -8,30 +8,28 @@ using Microsoft.EntityFrameworkCore;
 using EmployeeLogTimeForm.DAL.Data;
 using EmployeeLogTimeForm.DAL.Data.Model;
 using EmployeeLogTimeForm.Services.Services;
-using Microsoft.AspNetCore.Authorization;
 
 namespace EmployeeLogTimeForm.Controllers
 {
-    [Authorize(Roles = "ProjectManager")]
-    public class ProjectInfoController : Controller
+    public class ClientsController : Controller
     {
         private readonly EmployeeLogDbContext _context;
-        private readonly IProjectInfoService _projectInfoService;
+        private readonly IClientService _clientService;
 
-        public ProjectInfoController(EmployeeLogDbContext context, IProjectInfoService projectInfoService)
+        public ClientsController(EmployeeLogDbContext context, IClientService clientService)
         {
             _context = context;
-            _projectInfoService = projectInfoService;
+            _clientService = clientService;
         }
 
-        // GET: ProjectInfo
+        // GET: Clients
         public async Task<IActionResult> Index()
         {
-            var result = await _projectInfoService.GetAllProjectInfo();
+            var result = await _clientService.GetAllClient();
             return View(result);
         }
 
-        // GET: ProjectInfo/Details/5
+        // GET: Clients/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -39,43 +37,42 @@ namespace EmployeeLogTimeForm.Controllers
                 return NotFound();
             }
 
-            var projInfo = await _projectInfoService.GetProjInfoById(id);
+            var client = await _clientService.GetClientById(id);
 
-            if (projInfo == null)
+            if (client == null)
 
             {
                 return NotFound();
             }
 
-            return View(projInfo);
+            return View(client);
         }
 
-        // GET: ProjectInfo/Create
+        // GET: Clients/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: ProjectInfo/Create
+        // POST: Clients/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProjectId,ProjectName,ClientName,DueDate,BillableStatus,Costing")]
-        ProjectInfo projectInfo)
+        public async Task<IActionResult> Create([Bind("ClientId,ClientName")] Client client)
         {
             if (ModelState.IsValid)
             {
-                bool result = await _projectInfoService.CreateProject(projectInfo);
+                bool result = await _clientService.CreateClient(client);
                 if (result)
                 {
                     return RedirectToAction(nameof(Index));
                 }
             }
-            return View(projectInfo);
+            return View(client);
         }
 
-        // GET: ProjectInfo/Edit/5
+        // GET: Clients/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -83,23 +80,22 @@ namespace EmployeeLogTimeForm.Controllers
                 return NotFound();
             }
 
-            var projectInfo = await _projectInfoService.GetProjInfoById(id);
-            if (projectInfo == null)
+            var client = await _clientService.GetClientById(id);
+            if (client == null)
             {
                 return NotFound();
             }
-            return View(projectInfo);
+            return View(client);
         }
 
-        // POST: ProjectInfo/Edit/5
+        // POST: Clients/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProjectId,ProjectName,ClientName,DueDate,BillableStatus,Costing")]
-        ProjectInfo projectInfo)
+        public async Task<IActionResult> Edit(int id, [Bind("ClientId,ClientName")] Client client)
         {
-            if (id != projectInfo.ProjectId)
+            if (id != client.ClientId)
             {
                 return NotFound();
             }
@@ -108,12 +104,12 @@ namespace EmployeeLogTimeForm.Controllers
             {
                 try
                 {
-                    await _projectInfoService.UpdateProject(projectInfo);
+                    await _clientService.UpdateClient(client);
 
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProjectInfoExists(projectInfo.ProjectId))
+                    if (!ClientExists(client.ClientId))
                     {
                         return NotFound();
                     }
@@ -124,10 +120,10 @@ namespace EmployeeLogTimeForm.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(projectInfo);
+            return View(client);
         }
 
-        // GET: ProjectInfo/Delete/5
+        // GET: Clients/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -136,28 +132,28 @@ namespace EmployeeLogTimeForm.Controllers
                 return NotFound();
             }
 
-            var projectInfo = await _projectInfoService.GetProjInfoById(id);
-            if (projectInfo == null)
+            var client = await _clientService.GetClientById(id);
+            if (client == null)
             {
                 return NotFound();
             }
 
-            return View(projectInfo);
+            return View(client);
         }
 
-        // POST: ProjectInfo/Delete/5
+        // POST: Clients/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _projectInfoService.GetProjInfoById(id);
+            await _clientService.DeleteClient(id);
 
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProjectInfoExists(int id)
+        private bool ClientExists(int id)
         {
-            return _projectInfoService.ProjectInfoExists(id);
+            return _clientService.ClientExists(id);
         }
     }
 }

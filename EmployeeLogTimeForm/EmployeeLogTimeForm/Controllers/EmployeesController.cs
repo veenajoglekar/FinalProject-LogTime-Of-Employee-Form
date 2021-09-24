@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace EmployeeLogTimeForm.Controllers
 {
-    [Authorize(Roles = "Employee")]
+    [Authorize(Roles = "Admin")]
     public class EmployeesController : Controller
     {
         private readonly EmployeeLogDbContext _context;
