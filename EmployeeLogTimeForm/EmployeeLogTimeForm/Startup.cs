@@ -39,10 +39,11 @@ namespace EmployeeLogTimeForm
                options.UseSqlServer(
                    Configuration.GetConnectionString("DefaultConnection")));
 
+            
             services.AddSingleton<IEmpService, EmployeeService>();
             services.AddSingleton<IProjectInfoService, ProjectInfoService>();
             services.AddSingleton<IJobInfoService, JobInfoService>();
-            services.AddSingleton<IClientService, ClientService>();
+            services.AddSingleton<ILogTimeService, LogTimeService>();
             services.AddControllersWithViews();
             services.AddRazorPages();
            

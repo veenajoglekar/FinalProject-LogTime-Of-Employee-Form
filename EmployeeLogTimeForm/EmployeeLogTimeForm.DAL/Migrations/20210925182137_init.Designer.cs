@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EmployeeLogTimeForm.DAL.Migrations
 {
     [DbContext(typeof(EmployeeLogDbContext))]
-    [Migration("20210924110634_createLogTimeFormTable")]
-    partial class createLogTimeFormTable
+    [Migration("20210925182137_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,21 +20,6 @@ namespace EmployeeLogTimeForm.DAL.Migrations
                 .HasAnnotation("ProductVersion", "3.1.18")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("EmployeeLogTimeForm.DAL.Data.Model.Client", b =>
-                {
-                    b.Property<int>("ClientId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ClientName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ClientId");
-
-                    b.ToTable("clients");
-                });
 
             modelBuilder.Entity("EmployeeLogTimeForm.DAL.Data.Model.Employee", b =>
                 {
@@ -93,36 +78,25 @@ namespace EmployeeLogTimeForm.DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Hours")
-                        .HasColumnType("int");
+                    b.Property<string>("Hours")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("JobId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Minutes")
-                        .HasColumnType("int");
-
                     b.Property<int>("ProjectId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Seconds")
                         .HasColumnType("int");
 
                     b.Property<string>("WorkItem")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ClientId");
 
                     b.HasIndex("JobId");
 
@@ -141,6 +115,9 @@ namespace EmployeeLogTimeForm.DAL.Migrations
                     b.Property<string>("BillableStatus")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ClientName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Costing")
                         .HasColumnType("int");
 
@@ -157,12 +134,6 @@ namespace EmployeeLogTimeForm.DAL.Migrations
 
             modelBuilder.Entity("EmployeeLogTimeForm.DAL.Data.Model.LogTimeForm", b =>
                 {
-                    b.HasOne("EmployeeLogTimeForm.DAL.Data.Model.Client", "Client")
-                        .WithMany("LogTimeForm")
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("EmployeeLogTimeForm.DAL.Data.Model.JobInfo", "JobInfo")
                         .WithMany("LogTimeForm")
                         .HasForeignKey("JobId")

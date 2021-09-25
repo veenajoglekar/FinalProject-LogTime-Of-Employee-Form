@@ -3,23 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EmployeeLogTimeForm.DAL.Migrations
 {
-    public partial class project : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "clients",
-                columns: table => new
-                {
-                    ClientId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ClientName = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_clients", x => x.ClientId);
-                });
-
             migrationBuilder.CreateTable(
                 name: "employees",
                 columns: table => new
@@ -57,6 +44,7 @@ namespace EmployeeLogTimeForm.DAL.Migrations
                 {
                     ProjectId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    ClientName = table.Column<string>(nullable: true),
                     ProjectName = table.Column<string>(nullable: true),
                     DueDate = table.Column<DateTime>(nullable: true),
                     BillableStatus = table.Column<string>(nullable: true),
@@ -68,33 +56,29 @@ namespace EmployeeLogTimeForm.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "LogTimeForm",
+                name: "logTimeForm",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ClientId = table.Column<int>(nullable: false),
                     ProjectId = table.Column<int>(nullable: false),
                     JobId = table.Column<int>(nullable: false),
-                    WorkItem = table.Column<string>(nullable: true)
+                    WorkItem = table.Column<string>(nullable: true),
+                    Date = table.Column<DateTime>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    Hours = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LogTimeForm", x => x.Id);
+                    table.PrimaryKey("PK_logTimeForm", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_LogTimeForm_clients_ClientId",
-                        column: x => x.ClientId,
-                        principalTable: "clients",
-                        principalColumn: "ClientId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_LogTimeForm_jobInfo_JobId",
+                        name: "FK_logTimeForm_jobInfo_JobId",
                         column: x => x.JobId,
                         principalTable: "jobInfo",
                         principalColumn: "JobId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_LogTimeForm_projectInfo_ProjectId",
+                        name: "FK_logTimeForm_projectInfo_ProjectId",
                         column: x => x.ProjectId,
                         principalTable: "projectInfo",
                         principalColumn: "ProjectId",
@@ -102,18 +86,13 @@ namespace EmployeeLogTimeForm.DAL.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_LogTimeForm_ClientId",
-                table: "LogTimeForm",
-                column: "ClientId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_LogTimeForm_JobId",
-                table: "LogTimeForm",
+                name: "IX_logTimeForm_JobId",
+                table: "logTimeForm",
                 column: "JobId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LogTimeForm_ProjectId",
-                table: "LogTimeForm",
+                name: "IX_logTimeForm_ProjectId",
+                table: "logTimeForm",
                 column: "ProjectId");
         }
 
@@ -123,10 +102,7 @@ namespace EmployeeLogTimeForm.DAL.Migrations
                 name: "employees");
 
             migrationBuilder.DropTable(
-                name: "LogTimeForm");
-
-            migrationBuilder.DropTable(
-                name: "clients");
+                name: "logTimeForm");
 
             migrationBuilder.DropTable(
                 name: "jobInfo");

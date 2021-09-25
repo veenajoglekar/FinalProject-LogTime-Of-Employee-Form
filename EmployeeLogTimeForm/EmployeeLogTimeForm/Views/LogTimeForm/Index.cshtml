@@ -1,4 +1,5 @@
-﻿@model IEnumerable<EmployeeLogTimeForm.DAL.Data.Model.LogTimeForm>
+﻿
+@model IEnumerable<EmployeeLogTimeForm.DAL.Data.Model.LogTimeForm>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,9 +14,6 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Client)
-            </th>
             <th>
                 @Html.DisplayNameFor(model => model.ProjectInfo)
             </th>
@@ -34,21 +32,13 @@
             <th>
                 @Html.DisplayNameFor(model => model.Hours)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Minutes)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Seconds)
-            </th>
+            
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Client.ClientId)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ProjectInfo.ProjectId)
             </td>
@@ -67,12 +57,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Hours)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Minutes)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Seconds)
-            </td>
+            
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |

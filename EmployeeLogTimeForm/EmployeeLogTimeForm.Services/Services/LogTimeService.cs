@@ -3,6 +3,7 @@ using EmployeeLogTimeForm.DAL.Data.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,7 +17,7 @@ namespace EmployeeLogTimeForm.Services.Services
         public Task<bool> CreateDetails(LogTimeForm logTimeForm);
         public Task UpdateDetails(LogTimeForm logTimeForm);
         public Task DeleteDetails(int id);
-        public bool LogTimeFormExistsExists(int id);
+        public bool LogTimeFormExists(int id);
     }
     public class LogTimeService : ILogTimeService
     {
@@ -25,7 +26,7 @@ namespace EmployeeLogTimeForm.Services.Services
             using (var Context = new EmployeeLogDbContext())
             {
 
-                return await Context.logTimeForm.Include(l => l.Client).Include(l => l.JobInfo).Include(l => l.ProjectInfo).ToListAsync(); 
+                return await Context.logTimeForm.Include(l => l.JobInfo).Include(l => l.ProjectInfo).ToListAsync(); 
             }
         }
 
@@ -33,7 +34,7 @@ namespace EmployeeLogTimeForm.Services.Services
         {
             using (var Context = new EmployeeLogDbContext())
             {
-                return await Context.logTimeForm.Include(l => l.Client)
+                return await Context.logTimeForm
                 .Include(l => l.JobInfo)
                 .Include(l => l.ProjectInfo)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -46,14 +47,48 @@ namespace EmployeeLogTimeForm.Services.Services
             {
                 try
                 {
-                    Context.Add(emp);
+                    Context.Add(logTimeForm);
                     await Context.SaveChangesAsync();
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    Console.WriteLine(e);
                     return false;
                 }
                 return true;
+            }
+        }
+
+        public async Task UpdateDetails(LogTimeForm logTimeForm)
+        {
+            using (var Context = new EmployeeLogDbContext())
+            {
+
+                Context.Update(logTimeForm);
+                await Context.SaveChangesAsync();
+
+            }
+        }
+
+        public async Task DeleteDetails(int id)
+        {
+            using (var Context = new EmployeeLogDbContext())
+            {
+                var logTime = await Context.logTimeForm
+                .Include(l => l.JobInfo)
+                .Include(l => l.ProjectInfo)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+                Context.logTimeForm.Remove(logTime);
+                await Context.SaveChangesAsync();
+            }
+        }
+
+        public bool LogTimeFormExists(int id)
+        {
+            using (var Context = new EmployeeLogDbContext())
+            {
+                return Context.logTimeForm.Any(e => e.Id == id);
             }
         }
     }
