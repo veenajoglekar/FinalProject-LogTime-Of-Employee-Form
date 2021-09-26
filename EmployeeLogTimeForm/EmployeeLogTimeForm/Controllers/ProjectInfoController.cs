@@ -42,20 +42,7 @@ namespace EmployeeLogTimeForm.Controllers
                     .ToList();
             return View(await PaginatedList<ProjectInfo>.CreateAsync
                             (data, pageNumber, 3));
-            //if (searchBy == "ClientName")
-            //{
-            //    return View(result.Where (e => e.ClientName.ToLower().Contains(search.ToLower()))
-            //        .ToList());
-            //}
-            //else
-            //{
-            //    return View(result.Where(e => e.ProjectName.ToLower().Contains(search.ToLower()))
-            //        .ToList());
-
-            //}
-
-            //var result = await _projectInfoService.GetAllProjectInfo();
-            //return View(result);
+        
         }
 
         // GET: ProjectInfo/Details/5

@@ -1,5 +1,5 @@
-﻿
-@model IEnumerable<EmployeeLogTimeForm.DAL.Data.Model.ProjectInfo>
+﻿@using EmployeeLogTimeForm.DAL.Data.Model;
+@model PaginatedList<EmployeeLogTimeForm.DAL.Data.Model.ProjectInfo>
 
 @{
     ViewData["Title"] = "Index";
@@ -76,7 +76,7 @@
 </table>
 
 
-@*@{
+@{
     var prevDisabled = !Model.PreviousPage ? "disabled" : "";
     var nextDisabled = !Model.NextPage ? "disabled" : "";
 
@@ -88,4 +88,4 @@
 
 <a asp-action="Index"
    asp-route-pageNumber="@(Model.PageIndex +1)"
-   class="btn btn-default @nextDisabled">Next</a>*@
+   class="btn btn-default @nextDisabled">Next</a>
