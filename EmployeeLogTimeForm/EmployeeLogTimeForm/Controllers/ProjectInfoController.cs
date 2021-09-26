@@ -9,6 +9,7 @@ using EmployeeLogTimeForm.DAL.Data;
 using EmployeeLogTimeForm.DAL.Data.Model;
 using EmployeeLogTimeForm.Services.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace EmployeeLogTimeForm.Controllers
 {
@@ -16,12 +17,17 @@ namespace EmployeeLogTimeForm.Controllers
     public class ProjectInfoController : Controller
     {
         private readonly EmployeeLogDbContext _context;
+        private readonly ApplicationDbContext _appContext;
         private readonly IProjectInfoService _projectInfoService;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public ProjectInfoController(EmployeeLogDbContext context, IProjectInfoService projectInfoService)
+        public ProjectInfoController(EmployeeLogDbContext context, IProjectInfoService projectInfoService ,
+            UserManager<IdentityUser> userManager, ApplicationDbContext appContext)
         {
             _context = context;
+            _appContext = appContext;
             _projectInfoService = projectInfoService;
+            _userManager = userManager;
         }
 
         // GET: ProjectInfo
@@ -179,6 +185,31 @@ namespace EmployeeLogTimeForm.Controllers
         private bool ProjectInfoExists(int id)
         {
             return _projectInfoService.ProjectInfoExists(id);
+        }
+
+        public async Task<IActionResult> Assign()
+        {
+            var user = await _userManager.GetUsersInRoleAsync("Employee");   
+            ViewData["UserId"]= new SelectList(user, "Id", "Email");
+            ViewData["ProjectId"]= new SelectList(_context.projectInfo, "ProjectId", "ProjectName");
+            return View();
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Assign([Bind("ProjectId,UserId")]
+        AssignUser assignUser)
+        {
+            if (ModelState.IsValid)
+            {
+                bool result = await _projectInfoService.AssignProject(assignUser);
+                if (result)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            return View(assignUser);
         }
     }
 }

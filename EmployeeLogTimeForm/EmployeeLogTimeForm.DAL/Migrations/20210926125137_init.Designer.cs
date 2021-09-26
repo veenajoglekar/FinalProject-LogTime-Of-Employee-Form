@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EmployeeLogTimeForm.DAL.Migrations
 {
     [DbContext(typeof(EmployeeLogDbContext))]
-    [Migration("20210925182137_init")]
+    [Migration("20210926125137_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,6 +20,26 @@ namespace EmployeeLogTimeForm.DAL.Migrations
                 .HasAnnotation("ProductVersion", "3.1.18")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("EmployeeLogTimeForm.DAL.Data.Model.AssignUser", b =>
+                {
+                    b.Property<int>("AssignId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("AssignId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("AssignUser");
+                });
 
             modelBuilder.Entity("EmployeeLogTimeForm.DAL.Data.Model.Employee", b =>
                 {
@@ -78,6 +98,9 @@ namespace EmployeeLogTimeForm.DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("BillableStatus")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("Date")
                         .HasColumnType("datetime2");
 
@@ -130,6 +153,15 @@ namespace EmployeeLogTimeForm.DAL.Migrations
                     b.HasKey("ProjectId");
 
                     b.ToTable("projectInfo");
+                });
+
+            modelBuilder.Entity("EmployeeLogTimeForm.DAL.Data.Model.AssignUser", b =>
+                {
+                    b.HasOne("EmployeeLogTimeForm.DAL.Data.Model.ProjectInfo", "ProjectInfo")
+                        .WithMany("AssignUser")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("EmployeeLogTimeForm.DAL.Data.Model.LogTimeForm", b =>

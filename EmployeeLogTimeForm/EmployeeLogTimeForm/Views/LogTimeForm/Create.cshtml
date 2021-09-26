@@ -9,6 +9,12 @@
 
 <h4>LogTimeForm</h4>
 <hr />
+@if (ViewBag.ProjectId.selectedI == 0)
+{
+    <tr>
+        <td colspan="4">No rows match search criteria</td>
+    </tr>
+}
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
@@ -19,13 +25,13 @@
             </div>
             <div class="form-group">
                 <label asp-for="ProjectId" class="control-label">Project Name</label>
-                @Html.DropDownListFor(m => m.ProjectId, new SelectList(ViewBag.myContext, "ProjectId", "ProjectName"), "Select",
+                @*@Html.DropDownListFor(m => m.ProjectId, new SelectList(ViewBag.myContext, "ProjectId", "ProjectName"), "Select",
                     new
                     {
                         @onchange = "callBk(this.value)",
                         @id = "dropdwonId"
-                    })
-                @*<select asp-for="ProjectId" class="form-control" asp-items="ViewBag.ProjectId"></select>*@
+                    })*@
+                <select asp-for="ProjectId" class="form-control" asp-items="ViewBag.ProjectId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="JobId" class="control-label">Job Name</label>
@@ -53,7 +59,15 @@
             </div>
             <div class="form-group">
                 <label class="control-label">Billable Status</label>
-                <select class="form-control" asp-items="ViewBag.BillableStatus"></select>
+                @Html.DropDownListFor(m => m.BillableStatus, new SelectListItem[] {
+                    new SelectListItem(){ Text="Billable", Value = "Billable"},
+                    new SelectListItem(){ Text="Non Billable", Value = "Non Billable"}
+                }, "Select",
+                new
+                {
+                    @class = "form-control"
+                })
+                @*<select class="form-control" asp-items="ViewBag.BillableStatus"></select>*@
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -69,7 +83,7 @@
 <script>
     function callBk(val) {
         console.log(val);
-        
+
     }
 
 </script>

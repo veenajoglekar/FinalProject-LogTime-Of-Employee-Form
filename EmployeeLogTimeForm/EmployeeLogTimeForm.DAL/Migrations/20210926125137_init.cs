@@ -56,6 +56,26 @@ namespace EmployeeLogTimeForm.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AssignUser",
+                columns: table => new
+                {
+                    AssignId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProjectId = table.Column<int>(nullable: false),
+                    UserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AssignUser", x => x.AssignId);
+                    table.ForeignKey(
+                        name: "FK_AssignUser_projectInfo_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "projectInfo",
+                        principalColumn: "ProjectId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "logTimeForm",
                 columns: table => new
                 {
@@ -66,7 +86,8 @@ namespace EmployeeLogTimeForm.DAL.Migrations
                     WorkItem = table.Column<string>(nullable: true),
                     Date = table.Column<DateTime>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    Hours = table.Column<string>(nullable: true)
+                    Hours = table.Column<string>(nullable: true),
+                    BillableStatus = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -86,6 +107,11 @@ namespace EmployeeLogTimeForm.DAL.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_AssignUser_ProjectId",
+                table: "AssignUser",
+                column: "ProjectId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_logTimeForm_JobId",
                 table: "logTimeForm",
                 column: "JobId");
@@ -98,6 +124,9 @@ namespace EmployeeLogTimeForm.DAL.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AssignUser");
+
             migrationBuilder.DropTable(
                 name: "employees");
 

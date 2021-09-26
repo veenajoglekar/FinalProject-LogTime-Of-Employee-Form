@@ -19,6 +19,26 @@ namespace EmployeeLogTimeForm.DAL.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("EmployeeLogTimeForm.DAL.Data.Model.AssignUser", b =>
+                {
+                    b.Property<int>("AssignId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("AssignId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("AssignUser");
+                });
+
             modelBuilder.Entity("EmployeeLogTimeForm.DAL.Data.Model.Employee", b =>
                 {
                     b.Property<int>("EmployeeId")
@@ -76,6 +96,9 @@ namespace EmployeeLogTimeForm.DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("BillableStatus")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("Date")
                         .HasColumnType("datetime2");
 
@@ -128,6 +151,15 @@ namespace EmployeeLogTimeForm.DAL.Migrations
                     b.HasKey("ProjectId");
 
                     b.ToTable("projectInfo");
+                });
+
+            modelBuilder.Entity("EmployeeLogTimeForm.DAL.Data.Model.AssignUser", b =>
+                {
+                    b.HasOne("EmployeeLogTimeForm.DAL.Data.Model.ProjectInfo", "ProjectInfo")
+                        .WithMany("AssignUser")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("EmployeeLogTimeForm.DAL.Data.Model.LogTimeForm", b =>

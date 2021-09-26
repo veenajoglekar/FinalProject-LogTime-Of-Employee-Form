@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31613.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeLogTimeForm", "EmployeeLogTimeForm\EmployeeLogTimeForm.csproj", "{B97EEB70-EAD8-42D7-BB6E-5CCE9540CA13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeLogTimeForm", "EmployeeLogTimeForm\EmployeeLogTimeForm.csproj", "{B97EEB70-EAD8-42D7-BB6E-5CCE9540CA13}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeLogTimeForm.DAL", "EmployeeLogTimeForm.DAL\EmployeeLogTimeForm.DAL.csproj", "{CD7A5F23-1378-4215-81C7-6C6D8CEF9CFE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeLogTimeForm.DAL", "EmployeeLogTimeForm.DAL\EmployeeLogTimeForm.DAL.csproj", "{CD7A5F23-1378-4215-81C7-6C6D8CEF9CFE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeLogTimeForm.Services", "EmployeeLogTimeForm.Services\EmployeeLogTimeForm.Services.csproj", "{3E041F75-DCE5-44C4-B546-76B102879D29}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeLogTimeForm.Services", "EmployeeLogTimeForm.Services\EmployeeLogTimeForm.Services.csproj", "{3E041F75-DCE5-44C4-B546-76B102879D29}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

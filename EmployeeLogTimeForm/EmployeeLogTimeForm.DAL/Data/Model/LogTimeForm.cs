@@ -30,5 +30,6 @@ namespace EmployeeLogTimeForm.DAL.Data.Model
         public string Description { get; set; }
 
         public string Hours { get; set; }
+        public string BillableStatus { get; set; }
     }
 }

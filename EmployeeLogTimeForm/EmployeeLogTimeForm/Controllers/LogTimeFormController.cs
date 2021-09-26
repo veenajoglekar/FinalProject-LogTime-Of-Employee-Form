@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using EmployeeLogTimeForm.DAL.Data;
 using EmployeeLogTimeForm.DAL.Data.Model;
 using EmployeeLogTimeForm.Services.Services;
+using Microsoft.AspNetCore.Identity;
 
 namespace EmployeeLogTimeForm.Controllers
 {
@@ -15,11 +16,16 @@ namespace EmployeeLogTimeForm.Controllers
     {
         private readonly EmployeeLogDbContext _context;
         private readonly ILogTimeService _logTimeService;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly IProjectInfoService _projectInfoService;
 
-        public LogTimeFormController(EmployeeLogDbContext context, ILogTimeService logTimeService)
+        public LogTimeFormController(EmployeeLogDbContext context, ILogTimeService logTimeService,
+            UserManager<IdentityUser> userManager, IProjectInfoService projectInfoService)
         {
             _context = context;
             _logTimeService = logTimeService;
+            _userManager = userManager;
+            _projectInfoService = projectInfoService;
         }
 
         // GET: LogTimeForm
@@ -49,10 +55,29 @@ namespace EmployeeLogTimeForm.Controllers
         }
 
         // GET: LogTimeForm/Create
-        public IActionResult Create()
+        public async  Task<IActionResult> Create()
         {
             ViewData["JobId"] = new SelectList(_context.jobInfo, "JobId", "JobName");
-            ViewData["ProjectId"] = new SelectList(_context.projectInfo, "ProjectId", "ProjectName");
+
+            //Getting projects Assigned to logged in user
+            var user =  await _userManager.GetUserAsync(User);
+            //var result = await _projectInfoService.GetAllAssignedProjects();
+            var query = from u in _context.AssignUser
+                        where u.UserId == user.Id
+                        select u;
+
+            IList<ProjectInfo> projectList = new List<ProjectInfo>();
+            foreach (var project in _context.projectInfo)
+            {
+                foreach(var data in query)
+                {
+                   if(data.ProjectId == project.ProjectId)
+                    {
+                        projectList.Add(project);
+                    }
+                }
+            }
+            ViewData["ProjectId"] = new SelectList(projectList, "ProjectId", "ProjectName");
             ViewData["ClientName"] = new SelectList(_context.projectInfo, "ProjectId", "ClientName");
             ViewData["myContext"] = _context.projectInfo;
             ViewData["BillableStatus"] = new SelectList(_context.projectInfo, "ProjectId", "BillableStatus");
@@ -60,6 +85,10 @@ namespace EmployeeLogTimeForm.Controllers
             return View();
         }
 
+        public IActionResult CreateInt()
+        {
+            return View();
+        }
         // POST: LogTimeForm/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.

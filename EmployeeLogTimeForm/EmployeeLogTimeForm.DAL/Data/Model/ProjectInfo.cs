@@ -11,6 +11,7 @@ namespace EmployeeLogTimeForm.DAL.Data.Model
         public ProjectInfo()
         {
             LogTimeForm = new HashSet<LogTimeForm>();
+            AssignUser = new HashSet<AssignUser>();
         }
         [Key]
         public int ProjectId { get; set; }
@@ -22,5 +23,6 @@ namespace EmployeeLogTimeForm.DAL.Data.Model
 
         [InverseProperty("ProjectInfo")]
         public virtual ICollection<LogTimeForm> LogTimeForm { get; set; }
+        public virtual ICollection<AssignUser> AssignUser { get; set; }
     }
 }

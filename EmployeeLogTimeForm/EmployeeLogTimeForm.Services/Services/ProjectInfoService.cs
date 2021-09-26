@@ -18,6 +18,9 @@ namespace EmployeeLogTimeForm.Services.Services
         public Task UpdateProject(ProjectInfo projectInfo);
         public Task DeleteProject(int id);
         public bool ProjectInfoExists(int id);
+        public Task<bool> AssignProject(AssignUser assignUser);
+        public  Task<List<AssignUser>> GetAllAssignedProjects();
+
     }
     public class ProjectInfoService : IProjectInfoService
     {
@@ -83,5 +86,31 @@ namespace EmployeeLogTimeForm.Services.Services
                 return Context.projectInfo.Any(e => e.ProjectId == id);
             }
         }
+
+        public async Task<bool> AssignProject(AssignUser assignUser)
+        {
+            using (var Context = new EmployeeLogDbContext())
+            {
+                try
+                {
+                    Context.Add(assignUser);
+                    await Context.SaveChangesAsync();
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+                return true;
+            }
+        }
+
+        public async Task<List<AssignUser>> GetAllAssignedProjects()
+        {
+            using (var Context = new EmployeeLogDbContext())
+            {
+                return await Context.AssignUser.ToListAsync();
+            }
+        }
+
     }
 }
