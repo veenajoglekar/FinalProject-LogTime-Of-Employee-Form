@@ -11,6 +11,12 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<p>
+    @using (Html.BeginForm("Index", "ProjectInfo", FormMethod.Get))
+    {
+        @Html.TextBox("Search") <input type="submit" value="Search" />
+    }
+</p>
 <table class="table">
     <thead>
         <tr>
@@ -32,30 +38,37 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
-@foreach (var item in Model) {
+    @if (Model.Count() == 0)
+    {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClientName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProjectName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DueDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BillableStatus)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Costing)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ProjectId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ProjectId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ProjectId">Delete</a>
-            </td>
+            <td colspan="4">No rows match search criteria</td>
         </tr>
-}
+    }
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClientName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProjectName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DueDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BillableStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Costing)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ProjectId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ProjectId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ProjectId">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
