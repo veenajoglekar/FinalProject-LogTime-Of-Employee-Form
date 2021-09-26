@@ -54,6 +54,7 @@ namespace EmployeeLogTimeForm.Controllers
             ViewData["JobId"] = new SelectList(_context.jobInfo, "JobId", "JobName");
             ViewData["ProjectId"] = new SelectList(_context.projectInfo, "ProjectId", "ProjectName");
             ViewData["ClientName"] = new SelectList(_context.projectInfo, "ProjectId", "ClientName");
+            ViewData["myContext"] = _context.projectInfo;
             ViewData["BillableStatus"] = new SelectList(_context.projectInfo, "ProjectId", "BillableStatus");
 
             return View();

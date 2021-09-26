@@ -21,19 +21,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ClientName)
+                ClientName
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ProjectName)
+               ProjectName
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DueDate)
+                DueDate
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BillableStatus)
+                BillableStatus
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Costing)
+                Costing
             </th>
             <th></th>
         </tr>
@@ -72,3 +72,18 @@
         }
     </tbody>
 </table>
+
+
+@*@{
+    var prevDisabled = !Model.PreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.NextPage ? "disabled" : "";
+
+}
+
+<a asp-action="Index"
+   asp-route-pageNumber="@(Model.PageIndex -1)"
+   class="btn btn-default @prevDisabled">Previous</a>
+
+<a asp-action="Index"
+   asp-route-pageNumber="@(Model.PageIndex +1)"
+   class="btn btn-default @nextDisabled">Next</a>*@

@@ -25,15 +25,17 @@ namespace EmployeeLogTimeForm.Controllers
         }
 
         // GET: ProjectInfo
-        public async Task<IActionResult> Index(string searchBy, string search)
+        public async Task<IActionResult> Index(string searchBy, string search, int pageNumber = 1)
         {
             var result = await _projectInfoService.GetAllProjectInfo();
             if (search == null)
             {
-                return View(result);
+                return View(await PaginatedList<ProjectInfo>.CreateAsync(result, pageNumber, 3));
             }
-            return View(result.Where(e => e.ClientName.ToLower().Contains(search.ToLower()) || e.ProjectName.ToLower().Contains(search.ToLower()))
-                    .ToList());
+            var data = result.Where(e => e.ClientName.ToLower().Contains(search.ToLower()) || e.ProjectName.ToLower().Contains(search.ToLower()))
+                    .ToList();
+            return View(await PaginatedList<ProjectInfo>.CreateAsync
+                            (data, pageNumber, 3));
             //if (searchBy == "ClientName")
             //{
             //    return View(result.Where (e => e.ClientName.ToLower().Contains(search.ToLower()))
