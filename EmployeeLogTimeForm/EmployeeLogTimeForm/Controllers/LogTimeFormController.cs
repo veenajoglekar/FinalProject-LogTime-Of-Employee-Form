@@ -9,9 +9,11 @@ using EmployeeLogTimeForm.DAL.Data;
 using EmployeeLogTimeForm.DAL.Data.Model;
 using EmployeeLogTimeForm.Services.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EmployeeLogTimeForm.Controllers
 {
+    [Authorize(Roles = "Employee")]
     public class LogTimeFormController : Controller
     {
         private readonly EmployeeLogDbContext _context;

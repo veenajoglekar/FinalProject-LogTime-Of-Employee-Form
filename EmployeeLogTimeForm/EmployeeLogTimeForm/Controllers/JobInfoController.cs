@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using EmployeeLogTimeForm.DAL.Data;
 using EmployeeLogTimeForm.DAL.Data.Model;
 using EmployeeLogTimeForm.Services.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EmployeeLogTimeForm.Controllers
 {
+    [Authorize(Roles = "ProjectManager")]
     public class JobInfoController : Controller
     {
         private readonly EmployeeLogDbContext _context;
