@@ -34,7 +34,16 @@ namespace EmployeeLogTimeForm.Controllers
         public async Task<IActionResult> Index()
         {
             var result = await _logTimeService.GetAllDetails();
-            return View(result);
+            IList<LogTimeForm> logTimeList = new List<LogTimeForm>();
+            var user = await _userManager.GetUserAsync(User);
+            foreach (var data in result)
+            {
+                if ( user!= null && data.UserId == user.Id)
+                {
+                    logTimeList.Add(data);
+                }
+            }
+            return View(logTimeList);
         }
 
         // GET: LogTimeForm/Details/5
@@ -100,6 +109,11 @@ namespace EmployeeLogTimeForm.Controllers
         {
             if (ModelState.IsValid)
             {
+                var user = await _userManager.GetUserAsync(User);
+                if (user != null )
+                {
+                    logTimeForm.UserId = user.Id;
+                }
                 bool result = await _logTimeService.CreateDetails(logTimeForm);
                 if (result)
                 {

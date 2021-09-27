@@ -1,5 +1,6 @@
 ﻿using EmployeeLogTimeForm.DAL.Data;
 using EmployeeLogTimeForm.DAL.Data.Model;
+using EmployeeLogTimeForm.Services.ViewModel;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -20,10 +21,12 @@ namespace EmployeeLogTimeForm.Services.Services
         public bool ProjectInfoExists(int id);
         public Task<bool> AssignProject(AssignUser assignUser);
         public  Task<List<AssignUser>> GetAllAssignedProjects();
+        //public Task<List<vwJoinData>> JoinTables(ApplicationDbContext AppContext);
 
     }
     public class ProjectInfoService : IProjectInfoService
     {
+
         public async Task<List<ProjectInfo>> GetAllProjectInfo()
         {
             using (var Context = new EmployeeLogDbContext())
@@ -111,6 +114,26 @@ namespace EmployeeLogTimeForm.Services.Services
                 return await Context.AssignUser.ToListAsync();
             }
         }
+
+        //public async Task<List<vwJoinData>> JoinTables(ApplicationDbContext AppContext)
+        //{
+
+        //    using (var Context = new EmployeeLogDbContext())
+        //    {
+        //        var users = AppContext.Users;
+        //        var data = from p in Context.projectInfo
+        //                         join a in Context.AssignUser on p.ProjectId equals a.ProjectId
+        //                         join u in users on a.UserId equals u.Id
+        //                         select new vwJoinData
+        //                         {
+        //                             ProjectName = p.ProjectName,
+        //                             Email = u.Email
+        //                         };
+        //        return await data.ToListAsync();
+
+        //    }
+
+        //}
 
     }
 }

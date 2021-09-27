@@ -114,6 +114,9 @@ namespace EmployeeLogTimeForm.DAL.Migrations
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("WorkItem")
                         .HasColumnType("nvarchar(max)");
 

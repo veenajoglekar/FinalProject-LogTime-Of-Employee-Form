@@ -83,6 +83,7 @@ namespace EmployeeLogTimeForm.DAL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProjectId = table.Column<int>(nullable: false),
                     JobId = table.Column<int>(nullable: false),
+                    UserId = table.Column<string>(nullable: true),
                     WorkItem = table.Column<string>(nullable: true),
                     Date = table.Column<DateTime>(nullable: true),
                     Description = table.Column<string>(nullable: true),

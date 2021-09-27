@@ -13,6 +13,8 @@ namespace EmployeeLogTimeForm.DAL.Data.Model
         public int ProjectId { get; set; }
         public int JobId { get; set; }
 
+        public string UserId { get; set; }
+
         [ForeignKey(nameof(ProjectId))]
         [Display(Name = "Project Name")]
         public virtual ProjectInfo ProjectInfo { get; set; }

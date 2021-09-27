@@ -1,6 +1,7 @@
 ﻿@using EmployeeLogTimeForm.DAL.Data.Model;
 @model PaginatedList<EmployeeLogTimeForm.DAL.Data.Model.ProjectInfo>
 
+
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,8 +10,8 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a> | 
-    <a asp-action="Assign">Assign Project To Employee</a> 
+    <a asp-action="Create">Create New</a> |
+    <a asp-action="Assign">Assign Project To Employee</a>
 
 </p>
 <p>
@@ -26,7 +27,7 @@
                 ClientName
             </th>
             <th>
-               ProjectName
+                ProjectName
             </th>
             <th>
                 DueDate
@@ -89,3 +90,35 @@
 <a asp-action="Index"
    asp-route-pageNumber="@(Model.PageIndex +1)"
    class="btn btn-default @nextDisabled">Next</a>
+
+
+@*@{
+    var Data = ViewData["Assigndata"] as List<vwJoinData>;
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                ProjectName
+            </th>
+            <th>
+                Email
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Data)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(Data => item.ProjectName)
+                </td>
+                <td>
+                    @Html.DisplayFor(Data => item.Email)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>*@
+

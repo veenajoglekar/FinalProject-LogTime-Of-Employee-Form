@@ -10,6 +10,7 @@ using EmployeeLogTimeForm.DAL.Data.Model;
 using EmployeeLogTimeForm.Services.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using EmployeeLogTimeForm.Services.ViewModel;
 
 namespace EmployeeLogTimeForm.Controllers
 {
@@ -33,11 +34,14 @@ namespace EmployeeLogTimeForm.Controllers
         // GET: ProjectInfo
         public async Task<IActionResult> Index(string searchBy, string search, int pageNumber = 1)
         {
+            //var Assigndata = await _projectInfoService.JoinTables(_appContext);
+            //ViewData["Assigndata"] = Assigndata;
             var result = await _projectInfoService.GetAllProjectInfo();
             if (search == null)
             {
                 return View(await PaginatedList<ProjectInfo>.CreateAsync(result, pageNumber, 3));
             }
+        
             var data = result.Where(e => e.ClientName.ToLower().Contains(search.ToLower()) || e.ProjectName.ToLower().Contains(search.ToLower()))
                     .ToList();
             return View(await PaginatedList<ProjectInfo>.CreateAsync

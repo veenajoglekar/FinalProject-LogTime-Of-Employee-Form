@@ -1,6 +1,5 @@
-﻿
+﻿@using EmployeeLogTimeForm.Services.ViewModel;
 @model IEnumerable<EmployeeLogTimeForm.DAL.Data.Model.LogTimeForm>
-
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -38,43 +37,46 @@
             <th>
                 @Html.DisplayNameFor(model => model.BillableStatus)
             </th>
-            
+
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProjectInfo.ProjectName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.JobInfo.JobName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProjectInfo.ClientName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.WorkItem)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Hours)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProjectInfo.BillableStatus)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProjectInfo.ProjectName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.JobInfo.JobName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProjectInfo.ClientName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WorkItem)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Hours)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProjectInfo.BillableStatus)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+
