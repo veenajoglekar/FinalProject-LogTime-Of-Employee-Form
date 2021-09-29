@@ -51,9 +51,8 @@ namespace EmployeeLogTimeForm.Services.Services
                     Context.Add(logTimeForm);
                     await Context.SaveChangesAsync();
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    Console.WriteLine(e);
                     return false;
                 }
                 return true;

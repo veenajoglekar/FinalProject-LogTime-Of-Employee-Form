@@ -187,5 +187,39 @@ namespace EmployeeProject.Controllers
             return RedirectToAction("EditRole", new { Id = roleId });
             
         }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteRole(string id)
+        {
+
+            var model = await roleManager.FindByIdAsync(id);
+
+            var result = await roleManager.DeleteAsync(model);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction("ListRoles");
+            }
+            return View(model);
+        }
+
+        //    [HttpPost]
+        //public async Task<IActionResult> DeleteRole(List<UserRoleModel> model,string id)
+        //{
+        //    var roleObj= await roleManager.FindByIdAsync(id);
+        //    var result = await roleManager.DeleteAsync(roleObj);
+
+        //    if (result.Succeeded)
+        //    {
+        //        return RedirectToAction("ListRoles");
+        //    }
+
+        //    foreach (var error in result.Errors)
+        //    {
+        //        ModelState.AddModelError("", error.Description);
+        //    }
+
+        //    return RedirectToAction(nameof(Index));
+        //}
     }
 }
