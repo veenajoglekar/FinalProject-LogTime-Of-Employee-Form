@@ -74,7 +74,7 @@ namespace EmployeeLogTimeForm.Controllers
             var user =  await _userManager.GetUserAsync(User);
             //var result = await _projectInfoService.GetAllAssignedProjects();
             var query = from u in _context.AssignUser
-                        where u.UserId == user.Id
+                        where u.UserId == user.Id  //comapring UserId which is in AssignUser Model with IdentityUser user
                         select u;
 
             IList<ProjectInfo> projectList = new List<ProjectInfo>();
@@ -82,6 +82,7 @@ namespace EmployeeLogTimeForm.Controllers
             {
                 foreach(var data in query)
                 {
+                    //Getting Projects which are assigned to User
                    if(data.ProjectId == project.ProjectId)
                     {
                         projectList.Add(project);

@@ -20,7 +20,7 @@ namespace EmployeeLogTimeForm.Services.Services
         public Task DeleteProject(int id);
         public bool ProjectInfoExists(int id);
         public Task<bool> AssignProject(AssignUser assignUser);
-        public  Task<List<AssignUser>> GetAllAssignedProjects();
+
         //public Task<List<vwJoinData>> JoinTables(ApplicationDbContext AppContext);
 
     }
@@ -107,13 +107,7 @@ namespace EmployeeLogTimeForm.Services.Services
             }
         }
 
-        public async Task<List<AssignUser>> GetAllAssignedProjects()
-        {
-            using (var Context = new EmployeeLogDbContext())
-            {
-                return await Context.AssignUser.ToListAsync();
-            }
-        }
+      
 
         //public async Task<List<vwJoinData>> JoinTables(ApplicationDbContext AppContext)
         //{

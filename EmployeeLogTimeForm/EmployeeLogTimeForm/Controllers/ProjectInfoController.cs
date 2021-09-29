@@ -178,6 +178,7 @@ namespace EmployeeLogTimeForm.Controllers
             return _projectInfoService.ProjectInfoExists(id);
         }
 
+        //Get UserEmail whose role is Employee and projectName to Assign project to Employee
         public async Task<IActionResult> Assign()
         {
             var user = await _userManager.GetUsersInRoleAsync("Employee");   
