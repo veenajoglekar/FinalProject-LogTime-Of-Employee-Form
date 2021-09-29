@@ -33,6 +33,7 @@ namespace EmployeeLogTimeForm.Controllers
         // GET: LogTimeForm
         public async Task<IActionResult> Index()
         {
+            //getting logTime for only logged in user
             var result = await _logTimeService.GetAllDetails();
             IList<LogTimeForm> logTimeList = new List<LogTimeForm>();
             var user = await _userManager.GetUserAsync(User);
@@ -72,7 +73,6 @@ namespace EmployeeLogTimeForm.Controllers
 
             //Getting projects Assigned to logged in user
             var user =  await _userManager.GetUserAsync(User);
-            //var result = await _projectInfoService.GetAllAssignedProjects();
             var query = from u in _context.AssignUser
                         where u.UserId == user.Id  //comapring UserId which is in AssignUser Model with IdentityUser user
                         select u;
@@ -90,8 +90,6 @@ namespace EmployeeLogTimeForm.Controllers
                 }
             }
             ViewData["ProjectId"] = new SelectList(projectList, "ProjectId", "ProjectName");
-            ViewData["ClientName"] = new SelectList(_context.projectInfo, "ProjectId", "ClientName");
-            ViewData["myContext"] = _context.projectInfo;
             ViewData["BillableStatus"] = new SelectList(_context.projectInfo, "ProjectId", "BillableStatus");
 
             return View();
@@ -121,13 +119,6 @@ namespace EmployeeLogTimeForm.Controllers
                     return RedirectToAction(nameof(Index));
                 }
             }
-
-            //if (ModelState.IsValid)
-            //{
-            //    _context.Add(logTimeForm);
-            //    await _context.SaveChangesAsync();
-            //    return RedirectToAction(nameof(Index));
-            //}
             ViewData["JobId"] = new SelectList(_context.jobInfo, "JobId", "JobName", logTimeForm.JobId);
             ViewData["ProjectId"] = new SelectList(_context.projectInfo, "ProjectId", "ProjectName", logTimeForm.ProjectId);
             return View(logTimeForm);
@@ -140,27 +131,16 @@ namespace EmployeeLogTimeForm.Controllers
             {
                 return NotFound();
             }
-
             var logTimeForm = await _logTimeService.GetDetailsById(id);
             if (logTimeForm == null)
             {
                 return NotFound();
             }
-
-            //if (id == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //var logTimeForm = await _context.logTimeForm.FindAsync(id);
-            //if (logTimeForm == null)
-            //{
-            //    return NotFound();
-            //}
             ViewData["JobId"] = new SelectList(_context.jobInfo, "JobId", "JobName", logTimeForm.JobId);
             ViewData["ProjectId"] = new SelectList(_context.projectInfo, "ProjectId", "ProjectName", logTimeForm.ProjectId);
             return View(logTimeForm);
         }
+
 
         // POST: LogTimeForm/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
@@ -170,31 +150,6 @@ namespace EmployeeLogTimeForm.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("Id,ClientId,ProjectId,JobId,WorkItem,Date,Description,Hours,Minutes,Seconds")]
         LogTimeForm logTimeForm)
         {
-            //if (id != logTimeForm.Id)
-            //{
-            //    return NotFound();
-            //}
-
-            //if (ModelState.IsValid)
-            //{
-            //    try
-            //    {
-            //        _context.Update(logTimeForm);
-            //        await _context.SaveChangesAsync();
-            //    }
-            //    catch (DbUpdateConcurrencyException)
-            //    {
-            //        if (!LogTimeFormExists(logTimeForm.Id))
-            //        {
-            //            return NotFound();
-            //        }
-            //        else
-            //        {
-            //            throw;
-            //        }
-            //    }
-            //    return RedirectToAction(nameof(Index));
-            //}
             if (id != logTimeForm.Id)
             {
                 return NotFound();
@@ -241,22 +196,6 @@ namespace EmployeeLogTimeForm.Controllers
             }
 
             return View(logTime);
-            //if (id == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //var logTimeForm = await _context.logTimeForm
-            //    .Include(l => l.Client)
-            //    .Include(l => l.JobInfo)
-            //    .Include(l => l.ProjectInfo)
-            //    .FirstOrDefaultAsync(m => m.Id == id);
-            //if (logTimeForm == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //return View(logTimeForm);
         }
 
         // POST: LogTimeForm/Delete/5
@@ -268,10 +207,6 @@ namespace EmployeeLogTimeForm.Controllers
             await _logTimeService.DeleteDetails(id);
 
             return RedirectToAction(nameof(Index));
-            //var logTimeForm = await _context.logTimeForm.FindAsync(id);
-            //_context.logTimeForm.Remove(logTimeForm);
-            //await _context.SaveChangesAsync();
-            //return RedirectToAction(nameof(Index));
         }
 
         private bool LogTimeFormExists(int id)
