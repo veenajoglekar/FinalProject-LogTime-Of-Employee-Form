@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EmployeeLogTimeForm.DAL.Migrations
 {
     [DbContext(typeof(EmployeeLogDbContext))]
-    [Migration("20210927172339_init")]
+    [Migration("20210930030625_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
