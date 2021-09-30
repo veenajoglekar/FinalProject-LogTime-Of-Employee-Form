@@ -39,13 +39,13 @@ namespace EmployeeLogTimeForm.Controllers
             var result = await _projectInfoService.GetAllProjectInfo();
             if (search == null)
             {
-                return View(await PaginatedList<ProjectInfo>.CreateAsync(result, pageNumber, 3));
+                return View(await PaginatedList<ProjectInfo>.CreateAsync(result, pageNumber, 5));
             }
         
             var data = result.Where(e => e.ClientName.ToLower().Contains(search.ToLower()) || e.ProjectName.ToLower().Contains(search.ToLower()))
                     .ToList();
             return View(await PaginatedList<ProjectInfo>.CreateAsync
-                            (data, pageNumber, 3));
+                            (data, pageNumber, 5));
         
         }
 
