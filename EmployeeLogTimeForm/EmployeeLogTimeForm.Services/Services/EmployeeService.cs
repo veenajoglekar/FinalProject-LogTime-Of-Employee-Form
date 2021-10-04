@@ -85,6 +85,7 @@ namespace EmployeeLogTimeForm.Services.Services
             using (var Context = new EmployeeLogDbContext())
             {
                 return Context.employees.Any(e => e.EmployeeId == id);
+                //return Context.employees.Where(e => e.EmployeeId == id).Count() > 0;
             }
         }
 
