@@ -39,7 +39,7 @@ namespace EmployeeLogTimeForm.Controllers
             var user = await _userManager.GetUserAsync(User);
             foreach (var data in result)
             {
-                if ( user!= null && data.UserId == user.Id)
+                if (user != null && data.UserId == user.Id)
                 {
                     logTimeList.Add(data);
                 }
@@ -66,13 +66,18 @@ namespace EmployeeLogTimeForm.Controllers
             return View(LogDetails);
         }
 
+        public async Task<string> GetClientByProjectId(int? id)
+        {
+            return await _projectInfoService.GetClientByProjectId(id);
+        }
+
         // GET: LogTimeForm/Create
-        public async  Task<IActionResult> Create()
+        public async Task<IActionResult> Create()
         {
             ViewData["JobId"] = new SelectList(_context.jobInfo, "JobId", "JobName");
 
             //Getting projects Assigned to logged in user
-            var user =  await _userManager.GetUserAsync(User);
+            var user = await _userManager.GetUserAsync(User);
             var query = from u in _context.AssignUser
                         where u.UserId == user.Id  //comapring UserId which is in AssignUser Model with IdentityUser user
                         select u;
@@ -80,10 +85,10 @@ namespace EmployeeLogTimeForm.Controllers
             IList<ProjectInfo> projectList = new List<ProjectInfo>();
             foreach (var project in _context.projectInfo)
             {
-                foreach(var data in query)
+                foreach (var data in query)
                 {
                     //Getting Projects which are assigned to User
-                   if(data.ProjectId == project.ProjectId)
+                    if (data.ProjectId == project.ProjectId)
                     {
                         projectList.Add(project);
                     }
@@ -109,7 +114,7 @@ namespace EmployeeLogTimeForm.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _userManager.GetUserAsync(User);
-                if (user != null )
+                if (user != null)
                 {
                     logTimeForm.UserId = user.Id;
                 }

@@ -18,7 +18,13 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="ProjectId" class="control-label col-xs-2">Project Name</label>
-                <select asp-for="ProjectId" class="form-control" asp-items="ViewBag.ProjectId"></select>
+                <select id="project-dd" asp-for="ProjectId" class="form-control" asp-items="ViewBag.ProjectId">
+                    <option selected disabled value="0">Select Project</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label  class="control-label col-xs-2">Client Name</label>
+                <input id="client-text" class="form-control" readonly />
             </div>
             <div class="form-group">
                 <label asp-for="JobId" class="control-label col-xs-2">Job Name</label>
@@ -77,4 +83,27 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#project-dd").on("change", function () {
+                $clientTxt = $("#client-text");
+                $.ajax({
+                    url: "/LogTimeForm/GetClientByProjectId",
+                    type: "GET",
+                    data: { id: $("#project-dd").val() }, 
+                    traditional: true,
+                    success: function (result) {
+                        $clientTxt.val(result);
+                    },
+                    error: function () {
+                        alert("Something went wrong");
+                    }
+                });
+
+
+            });
+        });
+    </script>
 }

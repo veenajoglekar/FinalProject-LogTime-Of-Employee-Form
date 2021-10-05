@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace EmployeeLogTimeForm.DAL.Migrations
+namespace EmployeeLogTimeForm.DAL.Migrations.EmployeeLogDb
 {
     [DbContext(typeof(EmployeeLogDbContext))]
-    [Migration("20211001094106_init")]
-    partial class init
+    [Migration("20211005054423_user")]
+    partial class user
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -102,12 +102,14 @@ namespace EmployeeLogTimeForm.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("Date")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Hours")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("JobId")
@@ -120,6 +122,7 @@ namespace EmployeeLogTimeForm.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("WorkItem")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -142,15 +145,18 @@ namespace EmployeeLogTimeForm.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ClientName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Costing")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("DueDate")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ProjectName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ProjectId");

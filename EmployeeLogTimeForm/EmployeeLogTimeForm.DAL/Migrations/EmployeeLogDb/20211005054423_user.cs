@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace EmployeeLogTimeForm.DAL.Migrations
+namespace EmployeeLogTimeForm.DAL.Migrations.EmployeeLogDb
 {
-    public partial class init : Migration
+    public partial class user : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,9 +44,9 @@ namespace EmployeeLogTimeForm.DAL.Migrations
                 {
                     ProjectId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ClientName = table.Column<string>(nullable: true),
-                    ProjectName = table.Column<string>(nullable: true),
-                    DueDate = table.Column<DateTime>(nullable: true),
+                    ClientName = table.Column<string>(nullable: false),
+                    ProjectName = table.Column<string>(nullable: false),
+                    DueDate = table.Column<DateTime>(nullable: false),
                     BillableStatus = table.Column<string>(nullable: true),
                     Costing = table.Column<int>(nullable: false)
                 },
@@ -84,10 +84,10 @@ namespace EmployeeLogTimeForm.DAL.Migrations
                     ProjectId = table.Column<int>(nullable: false),
                     JobId = table.Column<int>(nullable: false),
                     UserId = table.Column<string>(nullable: true),
-                    WorkItem = table.Column<string>(nullable: true),
-                    Date = table.Column<DateTime>(nullable: true),
+                    WorkItem = table.Column<string>(nullable: false),
+                    Date = table.Column<DateTime>(nullable: false),
                     Description = table.Column<string>(nullable: true),
-                    Hours = table.Column<string>(nullable: true),
+                    Hours = table.Column<string>(nullable: false),
                     BillableStatus = table.Column<string>(nullable: true)
                 },
                 constraints: table =>

@@ -14,7 +14,7 @@ namespace EmployeeLogTimeForm.Services.Services
     {
         public Task<List<ProjectInfo>> GetAllProjectInfo();
         public Task<ProjectInfo> GetProjInfoById(int? id);
-
+        public Task<string> GetClientByProjectId(int? id);
         public Task<bool> CreateProject(ProjectInfo projectInfo);
         public Task UpdateProject(ProjectInfo projectInfo);
         public Task DeleteProject(int id);
@@ -41,6 +41,21 @@ namespace EmployeeLogTimeForm.Services.Services
             {
                 return await Context.projectInfo.FirstOrDefaultAsync(m => m.ProjectId == id);
             }
+        }
+
+        public async Task<string> GetClientByProjectId(int? id)
+        {
+            if (id == null)
+            {
+                return "null";
+            }
+
+            using (var Context = new EmployeeLogDbContext())
+            {
+                var client = await Context.projectInfo.FirstOrDefaultAsync(c => c.ProjectId == id);
+                return client.ClientName;
+            }
+            
         }
 
         public async Task<bool> CreateProject(ProjectInfo projectInfo)
@@ -99,7 +114,7 @@ namespace EmployeeLogTimeForm.Services.Services
                     Context.Add(assignUser);
                     await Context.SaveChangesAsync();
                 }
-                catch (Exception e)
+                catch (Exception )
                 {
                     return false;
                 }

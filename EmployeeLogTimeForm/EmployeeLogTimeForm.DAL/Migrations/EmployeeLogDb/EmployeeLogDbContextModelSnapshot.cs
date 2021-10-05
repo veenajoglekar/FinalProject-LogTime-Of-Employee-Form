@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace EmployeeLogTimeForm.DAL.Migrations
+namespace EmployeeLogTimeForm.DAL.Migrations.EmployeeLogDb
 {
     [DbContext(typeof(EmployeeLogDbContext))]
     partial class EmployeeLogDbContextModelSnapshot : ModelSnapshot
@@ -100,12 +100,14 @@ namespace EmployeeLogTimeForm.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("Date")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Hours")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("JobId")
@@ -118,6 +120,7 @@ namespace EmployeeLogTimeForm.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("WorkItem")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -140,15 +143,18 @@ namespace EmployeeLogTimeForm.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ClientName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Costing")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("DueDate")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ProjectName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ProjectId");

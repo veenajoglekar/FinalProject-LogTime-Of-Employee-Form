@@ -35,7 +35,7 @@ namespace EmployeeLogTimeForm.DAL.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=LAPTOP-JGBU5O3N\\SQLEXPRESS;Database=EmployeeLogTime;User Id=sa;password=veena#123;MultipleActiveResultSets=True");
+                optionsBuilder.UseSqlServer("Server=VEENAJ\\SQLEXPRESS;Database=EmployeeLogTime;User Id=sa;password=123;MultipleActiveResultSets=True");
             }
         }
     }
