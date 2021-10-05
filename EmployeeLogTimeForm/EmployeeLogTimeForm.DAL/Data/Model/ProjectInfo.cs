@@ -15,8 +15,14 @@ namespace EmployeeLogTimeForm.DAL.Data.Model
         }
         [Key]
         public int ProjectId { get; set; }
+
+        [Required]
         public string ClientName { get; set; }
+
+        [Required]
         public string ProjectName { get; set; }
+
+        [Required]
         public DateTime? DueDate { get; set; }
         public string BillableStatus { get; set; }
         public int Costing { get; set; }

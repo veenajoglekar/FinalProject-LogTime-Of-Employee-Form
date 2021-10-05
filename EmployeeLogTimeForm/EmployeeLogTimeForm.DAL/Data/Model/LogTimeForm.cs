@@ -24,13 +24,18 @@ namespace EmployeeLogTimeForm.DAL.Data.Model
 
         [InverseProperty("LogTimeForm")]
 
+        [Required]
         public virtual JobInfo JobInfo { get; set; }
 
+        [Required]
         public string WorkItem { get; set; }
+
+        [Required]
         public DateTime? Date { get; set; }
 
         public string Description { get; set; }
 
+        [Required(ErrorMessage = "Please enter Total hours")]
         public string Hours { get; set; }
         public string BillableStatus { get; set; }
     }
